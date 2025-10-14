@@ -1,6 +1,7 @@
 <?php
 // Codelib: <Class: chartClass>
 
+// General Use ChartsClass
 class chartClass {
 	function countLines($text) {
 		$temp = $text;
