@@ -44,12 +44,6 @@ import com.caucho.quercus.QuercusModuleException;
 import com.caucho.quercus.env.ArrayValue;
 import com.caucho.quercus.env.Env;
 import com.caucho.quercus.module.AbstractQuercusModule;
-//import com.wsd.auto.code.engine.CodeEnginePhpImpl;
-//import com.wsd.auto.code.engine.util.WsdMapPhpImpl;
-//import com.wsd.auto.document.engine.DocumentEngineException;
-//import com.wsd.auto.document.value.BinaryDocument;
-//import com.wsd.auto.util.WsdMap;
-//import com.wsd.auto.value.DocumentType;
 
 import org.jfree.chart.plot.CategoryPlot; 
 import org.jfree.chart.renderer.category.BarRenderer;
@@ -123,18 +117,11 @@ public class DocAutoChartModule extends AbstractQuercusModule {
         return new WsdPieChart3D2(title, legend);
     }
 
-//    public static WsdChart2 wsd_chart_xy_area(Env env, String title, String xAxis, String yAxis, boolean legend, String dateFormat) {
-//        return new WsdXYLineChart(title, xAxis, yAxis, legend, false, dateFormat);
-//    }
-
     public static WsdChart2 wsd2_chart_xy_area_date(Env env, String title, String xAxis, String yAxis, boolean legend, String dateFormat) {
-//        return new WsdXYLineChart(title, xAxis, yAxis, legend, true, dateFormat, true);
         return new WsdXYAreaChart2(title, xAxis, yAxis, legend, true, dateFormat);
     }
 
-
     protected static TextAnchor getTextAnchor(String name) {
-
 	if ("BASELINE_CENTER".equals(name)) {
 	    return TextAnchor.BASELINE_CENTER;
 	}
@@ -185,103 +172,35 @@ public class DocAutoChartModule extends AbstractQuercusModule {
 	}
     }
 
-
-/*
     @SuppressWarnings("unchecked")
     public static Object wsd2_chart_draw(Env env, WsdChart2 chart, int width, int height) {
 	  return wsd2_chart_draw(env, chart, null, null, width, height);
     }
-    
-    @SuppressWarnings("unchecked")
-    public static Object wsd2_chart_draw(Env env, WsdChart2 chart, Float width, Float height, int scale_width, int scale_height) {
-        ByteArrayOutputStream output = new ByteArrayOutputStream();
-        try {
-            ChartUtilities.writeChartAsPNG(output, chart.chart, scale_width, scale_height);
-        	
-        } catch (IOException e) {
-            throw new QuercusModuleException("Could not create chart", e);
-        }
-        BinaryDocument image = new BinaryDocument(DocumentType.png, output.toByteArray());
-        // image.setMetadata("width", Integer.valueOf(width));
-        // image.setMetadata("height", Integer.valueOf(height));
-	if (width != null && height != null) {
-	    image.setMetadata("widthScale", new Float(width));
-	    image.setMetadata("heightScale", new Float (height));
-	}
-
-
-        Object wsdMap = null;
-        wsdMap = env.getValue(env.createString(CodeEnginePhpImpl.GLOBAL_MODEL_KEY)).toJavaObject();
-
-        if (wsdMap == null) {
-            logger.debug("Looking for variable " + CodeEnginePhpImpl.GLOBAL_MODEL_KEY + " in the local vars returned null, now looking in global vars...");
-            wsdMap = env.getGlobalValue(env.createString(CodeEnginePhpImpl.GLOBAL_MODEL_KEY)).toJavaObject();
-        }
-
-        try {
-            if (wsdMap == null) {
-                throw new QuercusModuleException("No WSD map found");
-            } else if (wsdMap instanceof WsdMap) {
-                return ((WsdMap) wsdMap).getDocumentDelegate().insertDocument(image);
-            } else if (wsdMap instanceof WsdMapPhpImpl) {
-                return ((WsdMapPhpImpl) wsdMap).insertDocument(image);
-            } else {
-                LoggerFactory.getLogger(WsdChart2Module.class).error("wsdMap class {}: [{}]", wsdMap.getClass(), wsdMap);
-                throw new QuercusModuleException("$v is not a WSD map");
-            }
-        } catch (DocumentEngineException e) {
-            throw new QuercusModuleException("Could not insert chart", e);
-        }
-    }
-*/
-
-    @SuppressWarnings("unchecked")
-    public static Object wsd2_chart_draw(Env env, WsdChart2 chart, int width, int height) {
-	  return wsd2_chart_draw(env, chart, null, null, width, height);
-    }
-    
 
     @SuppressWarnings("unchecked")
     public static Object wsd2_chart_draw(Env env, WsdChart2 chart, Float width, Float height, int scale_width, int scale_height) {
         ByteArrayOutputStream output = new ByteArrayOutputStream();
         try {
-            ChartUtilities.writeChartAsPNG(output, chart.chart, scale_width, scale_height);
-//            ChartUtilities.writeChartAsJPEG(output, 1f, chart.chart, scale_width, scale_height);
-        	
+            ChartUtilities.writeChartAsPNG(output, chart.chart, scale_width, scale_height);     	
         } catch (IOException e) {
             throw new QuercusModuleException("Could not create chart", e);
         }
-
-
-//         try {
-//             java.io.OutputStream fo = new java.io.FileOutputStream(new java.io.File("./chart.png"));
-//             ChartUtilities.writeChartAsPNG(fo, chart.chart, scale_width, scale_height);
-// //            ChartUtilities.writeChartAsJPEG(fo, 1f, chart.chart, scale_width, scale_height);
-//             fo.close();
-//         } catch (Exception e) {
-//             throw new QuercusModuleException("Could not create chart", e);
-//         }
-
+		
 	return env.createString(Base64.encodeBase64String(output.toByteArray()));
     }
 
-
     public static void tediousFuckingBullshit(String base64) {
         try {
-
             org.apache.commons.io.FileUtils.writeStringToFile(new java.io.File("base64.txt"), base64);
-
         } catch (Exception e) {
             throw new QuercusModuleException("Could not create chart", e);
         }
-
     }
 
     @SuppressWarnings("unchecked")
     public static Object wsd2_chart_draw_jpg(Env env, WsdChart2 chart, int width, int height) {
 	  return wsd2_chart_draw(env, chart, null, null, width, height);
     }
-    
 
     @SuppressWarnings("unchecked")
     public static Object wsd2_chart_draw_jpg(Env env, WsdChart2 chart, Float width, Float height, int scale_width, int scale_height) {
@@ -292,36 +211,15 @@ public class DocAutoChartModule extends AbstractQuercusModule {
         } catch (IOException e) {
             throw new QuercusModuleException("Could not create chart", e);
         }
-
-
-        // try {
-        //     org.apache.commons.io.FileUtils.writeStringToFile(new java.io.File("base64.txt"), Base64.encodeBase64String(output.toByteArray()));
-        //     //     FileUtils.writeStringToFile(new File("tpml.xml"), tpml, "UTF-8");
-        // } catch (Exception e) {
-	//     logger.error(e.getMessage(), e);
-        // }
-
-        // try {
-        //     java.io.OutputStream fo = new java.io.FileOutputStream(new java.io.File("./chart.png"));
-        //     ChartUtilities.writeChartAsJPEG(fo, 1f, chart.chart, scale_width, scale_height);
-        //     fo.close();
-        // } catch (Exception e) {
-        //     throw new QuercusModuleException("Could not create chart", e);
-        // }
-
-        
-
-	return env.createString(Base64.encodeBase64String(output.toByteArray()));
+	
+		return env.createString(Base64.encodeBase64String(output.toByteArray()));
     }
-
     
     protected abstract static class WsdChart2 {
         private JFreeChart chart;
         
         public WsdChart2 setBackgroundRGB(int r, int g, int b) {
             chart.getPlot().setBackgroundPaint(new Color(r, g, b));
-
-//            chart.getPlot().setBackgroundPaint(new GradientPaint(0, 0, Color.cyan, 200,200, Color.red, false));
 
             return this;
         }
@@ -332,11 +230,9 @@ public class DocAutoChartModule extends AbstractQuercusModule {
             return this;
         }
 
-
         public void setOutlineVisible(final boolean visible) {
             chart.getPlot().setOutlineVisible(visible);
         }
-
 
         public void setLegendFont(String fontName, int style, int size) {
             LegendTitle legend = chart.getLegend();
@@ -360,10 +256,7 @@ public class DocAutoChartModule extends AbstractQuercusModule {
                                               int r2, int g2, int b2,
                                               boolean cyclic) {
 
-//            chart.getPlot().setBackgroundPaint(new GradientPaint(0, 0, Color.cyan, 200,200, Color.red, false));
             chart.getPlot().setBackgroundPaint(new GradientPaint(x1, y1, new Color(r1, g1, b1), x2, y2, new Color(r2, g2, b2), cyclic));
-//            chart.getPlot().setBackgroundPaint(new GradientPaint(x1, y1, Color.cyan, x2, y2, Color.red, cyclic));
-//            chart.getPlot().setBackgroundPaint(new GradientPaint(0, 0, Color.cyan, 200,200, Color.red, false));
 
             return this;
         }
@@ -429,12 +322,8 @@ public class DocAutoChartModule extends AbstractQuercusModule {
 
 	    CategoryPlot plot = (CategoryPlot) getChart().getPlot();
 
-            // logger.debug("ALREADY at " + plot.getForegroundAlpha());
-            // logger.debug("background at " + plot.getBackgroundAlpha());
-            // logger.debug("background at " + plot.getBackgroundImageAlpha());
             plot.setBackgroundImageAlpha(1f);
-//	    plot.setForegroundAlpha(0.5f);  
-//	    plot.setForegroundAlpha(0f);
+
 	    plot.setForegroundAlpha(1f);
 
         }
@@ -467,18 +356,14 @@ public class DocAutoChartModule extends AbstractQuercusModule {
     	    plot.getRangeAxis().setTickLabelFont(new java.awt.Font(fontName, style, size));
     	}
         
-        /*
-         * setting the margins of the catagory axis
-         */
+        // setting the margins of the catagory axis
         public void setCategoryMargis(Float number) {
     	    CategoryPlot plot = (CategoryPlot) getChart().getPlot();
     	    final CategoryAxis domainAxis = plot.getDomainAxis();
-    	    domainAxis.setCategoryMargin(number); //e.g. 0.05 = 5%
+    	    domainAxis.setCategoryMargin(number); // e.g. 0.05 = 5%
     	}
         
-        /*
-         * Setting the max width of the bars of the bar chart
-         */
+        // setting the max width of the bars of the bar chart
         public void setMaxBarWidth(Float number) {
     	    CategoryPlot plot = (CategoryPlot) getChart().getPlot();
     	    BarRenderer br = (BarRenderer) plot.getRenderer(); 
@@ -584,9 +469,6 @@ public class DocAutoChartModule extends AbstractQuercusModule {
 	    marker.setPaint(color(r, g, b));
 	    marker.setLabel(label);
 	    marker.setStroke(stroke(weight, style));
-
-//	    marker.setLabelAnchor(RectangleAnchor.TOP_LEFT);
-//	    marker.setLabelTextAnchor(TextAnchor.BOTTOM_LEFT);
 
             marker.setLabelAnchor(getRectangleAnchor(rectangleAnchor));
 
@@ -709,7 +591,6 @@ public class DocAutoChartModule extends AbstractQuercusModule {
                                       final String intervalLayer) {
 
 
-//            IntervalMarker intervalmarker = new IntervalMarker(4.5D, 7.5D);
             IntervalMarker intervalmarker = new IntervalMarker(start, end);
             intervalmarker.setLabel(labelText);
             intervalmarker.setLabelFont(new Font(labelFontName, labelFontStyle, labelFontSize));
@@ -857,11 +738,6 @@ public class DocAutoChartModule extends AbstractQuercusModule {
             }
         }
 
-
-        // public void hack() {
-        //     ((ArbitraryTicksDateAxis) plot.getDomainAxis()).cacheTickDrawProperties();
-        // }
-
         public void hack() {
             ((ArbitraryTicksDateAxis) plot.getDomainAxis()).hack();
         }
@@ -977,23 +853,8 @@ public class DocAutoChartModule extends AbstractQuercusModule {
 
 	    plot.getRenderer().addAnnotation(annotation);
 
-/*
-
-	    XYPolygonAnnotation polygon = new XYPolygonAnnotation(new double[] {
-		    0.15D, 0.25D, 1.15D, 1.25D, 3D, 4D, 2.5D, 2D
-//		    2D, 5D, 2.5D, 8D, 3D, 5D, 2.5D, 2D
-		}, null, null, new Color(255, 0, 0));
-	    
-	    polygon.setToolTipText("Target Zone");
-	    plot.getRenderer().addAnnotation(polygon, Layer.BACKGROUND);
-
-
-	    System.out.println("**********************");
-*/
-
 	}
 
-	// there must be a better way of converting an ArrayValue to an array...
 	private double[] getDoubleArray(ArrayValue av) {
 	    double[] d = new double[av.getSize()];
 	    int i = 1;
@@ -1007,8 +868,6 @@ public class DocAutoChartModule extends AbstractQuercusModule {
 
 	    return d;
 	}
-
-//	public void addXYPolygonAnnotation(double[] d,
 
 	public void addXYPolygonAnnotationOutline(Env env, ArrayValue av,
 						  int or, int og, int ob, int oa,
@@ -1063,16 +922,10 @@ public class DocAutoChartModule extends AbstractQuercusModule {
 
 	public void shapes() {
 
-            // XYShapeAnnotation a1 = new XYShapeAnnotation(
-            //     new Rectangle2D.Double(20.0, 20.0, 50.0, 50.0), new BasicStroke(1.0f), Color.blue
-            // );
-
             XYShapeAnnotation a1 = new XYShapeAnnotation(
                 new Ellipse2D.Double(20.0, 20.0, 50.0, 50.0), new BasicStroke(1.0f), Color.blue
             );
 
-//            XYLineAnnotation a2 = new XYLineAnnotation(0.0, -5.0, 10.0, -5.0);
-//            XYImageAnnotation a3 = new XYImageAnnotation(5.0, 2.0, JFreeChart.INFO.getLogo());
             plot.addAnnotation(a1);
 
 	}
@@ -1092,9 +945,6 @@ public class DocAutoChartModule extends AbstractQuercusModule {
 
 	    plot.getRenderer().addAnnotation(polygon, background ? Layer.BACKGROUND : Layer.FOREGROUND);
 
-//	    plot.addAnnotation(polygon, background ? Layer.BACKGROUND : Layer.FOREGROUND);
-
-//	    plot.addAnnotation(new XYShapeAnnotation(shape, new BasicStroke(1.0f), Color.red));
 
 	}
         
@@ -1152,30 +1002,6 @@ public class DocAutoChartModule extends AbstractQuercusModule {
             this.dataset = new XYSeriesCollection();
  	    this.timeDataset = new TimeSeriesCollection();
 
-/*
-	    TimeSeries series1 = new TimeSeries("Random 1");
-	    double value = 0.0;
-	    Day day = new Day();
-	    for (int i = 0; i < 200; i++) {
-		value = value + Math.random() - 0.5;
-		series1.add(day, value);
-//		System.out.println("using value: " + value + " for " + day.toString());
-		try {
-		    java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("d-MMMM-y");
-		    Date date = sdf.parse(day.toString());
-		    String ff = new java.text.SimpleDateFormat("yyyy-M-d").format(date);
-//		    System.out.println("" + ff);
-//		    System.out.println("$chart->plotDate(\"Test2\", \"" + ff + "\", " + value + ", 192, 192, 192, 2, \"solid\");");
-		} catch (Exception e) {
-		    e.printStackTrace();
-		}
-		day = (Day) day.next();
-	    }
-*/
-
-//	    TimeSeriesCollection dataset = new TimeSeriesCollection(series1);
-//	    timeDataset = new TimeSeriesCollection(series1);
-
 	    JFreeChart chart = ChartFactory.createXYAreaChart(
 		title,
 		xAxis, yAxis,
@@ -1194,9 +1020,6 @@ public class DocAutoChartModule extends AbstractQuercusModule {
 	    domainAxis.setUpperMargin(0.0);
 	    plot.setDomainAxis(domainAxis);
 
-//            logger.debug("ALREADY at " + plot.getForegroundAlpha());
-//	    plot.setForegroundAlpha(0.5f);  
-//	    plot.setForegroundAlpha(0f);
 	    plot.setForegroundAlpha(1f);
 	    ((DateAxis) domainAxis).setDateFormatOverride(new java.text.SimpleDateFormat(dateFormat));
 	    setChart(chart);
@@ -1221,12 +1044,6 @@ public class DocAutoChartModule extends AbstractQuercusModule {
 
 		((DateAxis) plot.getDomainAxis()).setDateFormatOverride(new java.text.SimpleDateFormat(dateFormat));
 
-		// DateTickUnit tickUnit = new DateTickUnit(org.jfree.chart.axis.DateTickUnitType.MONTH, 6);
-		// ((DateAxis) plot.getDomainAxis()).setTickUnit(tickUnit);
-
-//		final org.jfree.chart.axis.TickUnits standardUnits = new org.jfree.chart.axis.TickUnits();
-
-//		((DateAxis) plot.getDomainAxis()).setTickMarkPosition(org.jfree.chart.axis.DateTickMarkPosition.START);
 
 	    } else {
 		setChart(ChartFactory.createXYLineChart(title, xAxis, yAxis, dataset, PlotOrientation.VERTICAL, legend, false, false));
@@ -1239,14 +1056,11 @@ public class DocAutoChartModule extends AbstractQuercusModule {
 	    XYPlot plot = (XYPlot) getChart().getPlot();
 	    final ValueAxis valueAxis = plot.getDomainAxis();
 
-//	    System.out.println("************************************* setUpperMargin(" + margin + ")");
-
 	    valueAxis.setUpperMargin(margin);
 	}
 
 	public void setPadding(double top, double left, double bottom, double right) {
 
-//	    System.out.println("************************************* setPadding(" + top + ", " + left + ", " + bottom + ", " + right + ")");
 
 	    getChart().setPadding(new RectangleInsets(top, left, bottom, right));
 	}
@@ -1400,17 +1214,14 @@ public class DocAutoChartModule extends AbstractQuercusModule {
         }
         
     }
-    // WsdXYLineChart ends
 
 
     protected static class WsdPieChart3D2 extends WsdPieChart2 {
 
         protected WsdPieChart3D2(String title, boolean legend) {
-//            super(title, legend);
             this.dataset = new DefaultPieDataset();
             
             setChart(ChartFactory.createPieChart3D(title, dataset, legend, false, false));
-//            ((PiePlot) getChart().getPlot()).setLabelGenerator(new StandardPieSectionLabelGenerator("{0} ({2} percent)"));
 
         }
 
@@ -1426,12 +1237,11 @@ public class DocAutoChartModule extends AbstractQuercusModule {
             this.dataset = new DefaultPieDataset();
             
             setChart(ChartFactory.createPieChart(title, dataset, legend, false, false));
-//            ((PiePlot) getChart().getPlot()).setLabelGenerator(new StandardPieSectionLabelGenerator("{0} ({2} percent)"));
 
         }
 
         public void addValue(final String key, final Number n) {
-            ((DefaultPieDataset) dataset).setValue(key, n); //new Double(43.200000000000003D));
+            ((DefaultPieDataset) dataset).setValue(key, n); // new Double(43.200000000000003D));
         }
 
         public void setColor(final String key, int r, int g, int b) {
@@ -1442,10 +1252,6 @@ public class DocAutoChartModule extends AbstractQuercusModule {
         public void setSimpleLabels(final boolean b) {
             ((PiePlot) getChart().getPlot()).setSimpleLabels(b);
         }
-
-        // public void setLabelBackgroundColor(int r, int g, int b) {
-        //     ((PiePlot) getChart().getPlot()).setLabelBackgroundPaint(new Color(r, g, b));
-        // }
 
         public void setLabelBackgroundColor(int r, int g, int b, int alpha) {
             ((PiePlot) getChart().getPlot()).setLabelBackgroundPaint(new Color(r, g, b, alpha));
@@ -1480,7 +1286,4 @@ public class DocAutoChartModule extends AbstractQuercusModule {
 	}
 
     }
-    // WsdPieChart ends
-
-
 }
